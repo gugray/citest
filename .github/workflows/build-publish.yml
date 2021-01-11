@@ -19,8 +19,11 @@ jobs:
       with:
         node-version: 14
     - name: Install Node dependencies
+      working-directory: ./XiePinyin
       run: npm ci
-    - run: gulp
+    - name: Run Gulp
+      working-directory: ./XiePinyin
+      run: gulp
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
