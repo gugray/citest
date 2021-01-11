@@ -61,7 +61,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        releaseId: ${{ create_release.outputs.id }}
+        #releaseId: ${{ create_release.outputs.id }}
         args: '_dist'
 
 
