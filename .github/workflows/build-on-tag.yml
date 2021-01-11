@@ -47,7 +47,7 @@ jobs:
         draft: false
         prerelease: false
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload_release_asset 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,5 +56,12 @@ jobs:
         asset_path: dist-linux-x64.zip
         asset_name: dist-linux-x64.zip
         asset_content_type: application/zip 
-      
-      
+    - name: Invoke deployment hook
+      uses: distributhor/workflow-webhook@v1
+      env:
+        webhook_type: 'form-urlencoded'
+        webhook_url: ${{ secrets.WEBHOOK_URL }}
+        webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+        webhook_auth: ${{ secrets.WEBHOOK_AUTH }}
+        data: '{ "artifact_url": ${{ steps.upload_release_asset.outputs.browser_download_url }}  }'
+        
