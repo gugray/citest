@@ -34,3 +34,12 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: File system publish
+      run: dotnet publish -o ./_dist -c Release --self-contained false -r linux-x64
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: _dist
+        path: _dist
+        retention-days: 2
+        
