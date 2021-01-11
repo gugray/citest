@@ -1,0 +1,15 @@
+ServiceAccountKey*
+
+_sources
+
+client-build
+**/wwwroot/bundle.*
+node_modules
+packages
+bin
+obj
+yarn.lock
+*.csproj.user
+*.njsproj.user
+.vs
+
