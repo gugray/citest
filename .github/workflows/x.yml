@@ -4,7 +4,7 @@ on:
   push:
     # branches: [ master ]
     tags:
-      - 'x*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   build:
@@ -29,38 +29,9 @@ jobs:
         version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
         informationalVersion: ${{ steps.gitversion.outputs.InformationalVersion }}
 
-    - name: Set up Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14
-
-    - name: Install Node dependencies
-      working-directory: ./XiePinyin
-      run: npm ci
-
-    - name: Run Gulp
-      working-directory: ./XiePinyin
-      run: gulp
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --no-restore
-
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-
-    - name: File system publish
-      run: dotnet publish -o ./dist-linux-x64 -c Release --self-contained false -r linux-x64
 
     - name: ZIP output folder
-      run: zip -r dist-linux-x64.zip ./dist-linux-x64
+      run: zip -r dist-linux-x64.zip ./XiePinyin/wwwroot
 
     - name: Create Release
       id: create_release
@@ -84,12 +55,11 @@ jobs:
         asset_name: dist-linux-x64.zip
         asset_content_type: application/zip 
 
-#    - name: Invoke deployment hook
-#      uses: distributhor/workflow-webhook@v1
-#      env:
-#        webhook_type: 'form-urlencoded'
-#        webhook_url: ${{ secrets.WEBHOOK_URL }}
-#        webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-#        webhook_auth: ${{ secrets.WEBHOOK_AUTH }}
-#        data: '{ "artifact_url": ${{ steps.upload_release_asset.outputs.browser_download_url }}  }'
+   - name: Invoke deployment hook
+     uses: distributhor/workflow-webhook@v1
+     env:
+       webhook_url: ${{ secrets.WEBHOOK_URL }}
+       webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+       webhook_auth: ${{ secrets.WEBHOOK_AUTH }}
+       data: '{ "artifact_url": ${{ steps.upload_release_asset.outputs.browser_download_url }}  }'
         
