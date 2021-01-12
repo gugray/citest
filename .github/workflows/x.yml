@@ -64,5 +64,5 @@ jobs:
         webhook_url: ${{ secrets.WEBHOOK_URL }}
         webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
         webhook_auth: ${{ secrets.WEBHOOK_AUTH }}
-        #data: '{ "artifact_url": ${{ steps.upload_release_asset.outputs.browser_download_url }}  }'
+        data: '{ "artifact_url": "${{ steps.upload_release_asset.outputs.browser_download_url }}"  }'
         
