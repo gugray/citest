@@ -53,8 +53,7 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: dist-linux-x64.zip
         asset_name: dist-linux-x64.zip
-        asset_content_type: application/zip 
-
+        asset_content_type: application/zip
 
     - name: Invoke deployment hook
       uses: distributhor/workflow-webhook@v1
